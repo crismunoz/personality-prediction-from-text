@@ -66,6 +66,6 @@ if __name__=='__main__':
     texts = df['text'].values
     out = p.predict_texts(texts)
     df_inf = pd.DataFrame(out)
-    df = pd.concat([df, df_inf], axis=1)
+    df = pd.concat([df, df_inf], axis=0)
     os.makedirs(args.output_path, exist_ok=True)
     df.to_excel(os.path.join(args.output_path , f'prediction_{args.chunk_id}.xlsx'), index=False)
