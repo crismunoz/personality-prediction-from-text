@@ -1,0 +1,2 @@
+FROM huggingface/transformers-tensorflow-gpu
+RUN pip install matplotlib scikit-learn pandas numpy tqdm
