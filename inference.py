@@ -45,7 +45,16 @@ class Predictor():
         outputs = [self.predict([text]) for text in tqdm(texts)]
         return outputs
 
-def main(args):
+
+if __name__=='__main__':
+    parse = argparse.ArgumentParser()
+    parse.add_argument('--chunk_id',  type=int)
+    parse.add_argument('--total_chunk',  type=int)
+    parse.add_argument('--dataset_path',  type=str)
+    parse.add_argument('--output_path',  type=str)
+    parse.add_argument('--max_sentences',  type=str)
+    args = parse.parse_args()
+
     p = Predictor()   
     df = pd.read_excel(args.dataset_path)   
     len_data = len(df)
@@ -60,14 +69,3 @@ def main(args):
     df = pd.concat([df, df_inf], axis=1)
     os.makedirs(args.output_path, exist_ok=True)
     df.to_excel(os.path.join(args.output_path , f'prediction_{args.chunk_id}.xlsx'), index=False)
-
-if __name__=='__main__':
-    parse = argparse.ArgumentParser()
-    parse.add_argument('--chunk_id',  type=int)
-    parse.add_argument('--total_chunk',  type=int)
-    parse.add_argument('--dataset_path',  type=str)
-    parse.add_argument('--output_path',  type=str)
-    parse.add_argument('--max_sentences',  type=str)
-    args = parse.parse_args()
-
-    main(args)
