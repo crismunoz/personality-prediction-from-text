@@ -57,8 +57,8 @@ class DataPrep():
         ]
 
     def prep_data(self, type, trait, regression=False, model_comparison=False):
-        df_status = self.prep_status_data()
-        # df_essay = self.prep_essay_data()
+        #df_status = self.prep_status_data()
+        df_essay = self.prep_essay_data()
 
         tfidf = TfidfVectorizer(stop_words='english', strip_accents='ascii')
 
@@ -127,6 +127,8 @@ class DataPrep():
         df = df_essays.merge(df_mairesse, how = 'inner', on = ['#AUTHID'])
 
         # add word count (WC) column
+        #print(df.columns)
+        
         df['WC'] = df['TEXT'].str.split().str.len()
 
         df = self.convert_traits_to_boolean(df)
