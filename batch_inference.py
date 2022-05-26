@@ -61,10 +61,11 @@ if __name__=='__main__':
     parse = argparse.ArgumentParser()
     parse.add_argument('--chunk_id',  type=int)
     parse.add_argument('--total_chunks',  type=int)
+    parse.add_argument('--dataset_path',  type=str)
     
     args = parse.parse_args()
     
-    dataset_path = r'C:\Users\Cristian\Documents\HolisticAI\repos\neural_nets_personality\outputs\organized_text\trait_activating_questions_clean.csv'
+    dataset_path = args.dataset_path#r'C:\Users\Cristian\Documents\HolisticAI\repos\neural_nets_personality\outputs\organized_text\trait_activating_questions_clean.csv'
 
     df = pd.read_csv((dataset_path))
     text = df['text'].apply(lambda x: x.replace('\n',' '))
