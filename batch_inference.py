@@ -1,3 +1,4 @@
+import os
 import argparse
 import pandas as pd
 import pickle
@@ -61,27 +62,32 @@ if __name__=='__main__':
     parse = argparse.ArgumentParser()
     parse.add_argument('--chunk_id',  type=int, default=11)
     parse.add_argument('--total_chunks',  type=int, default=20)
-    parse.add_argument('--dataset_path',  type=str, default=r"C:\Users\cris_\Documents\GitHub\neural_nets_personality\outputs\organized_text\trait_activating_questions_clean.csv")
+    parse.add_argument('--dataset_path',  type=str, default=r'C:\Users\Cristian\Documents\HolisticAI\repos\neural_nets_personality\outputs\organized_text\trait_activating_questions_clean.csv')
     
     args = parse.parse_args()
     
-    dataset_path = args.dataset_path#r'C:\Users\Cristian\Documents\HolisticAI\repos\neural_nets_personality\outputs\organized_text\trait_activating_questions_clean.csv'
+    dataset_path = args.dataset_path#
 
-    df = pd.read_csv((dataset_path))
+    df = pd.read_csv(dataset_path)
     text = df['text'].apply(lambda x: x.replace('\n',' '))
     
     chunk_size = (len(text)+args.total_chunks-1)//args.total_chunks
-
-    batch_size = 10
+    
+    os.makedirs('results', exist_ok=True)
+    batch_size = 100
     iteration = (chunk_size + batch_size-1)//batch_size
+
     args_list = []
     for i in tqdm(range(iteration)):
+
+        out_path =f'results/results_{args.chunk_id}_{i}.json' 
+        if os.path.exists(out_path):
+            continue
+
         start = i*batch_size
         stop = (i+1)*batch_size
         gtext = text.iloc[start:stop]
-        args_list.append(gtext)
-
-    outs = [process(a)  for a in tqdm(args_list)]
-
-    with open(f'results_{args.chunk_id}.json','w') as file:
-        json.dump(outs,file)
+        outs = process(gtext)
+        
+        with open(out_path,'w') as file:
+            json.dump(outs,file)
