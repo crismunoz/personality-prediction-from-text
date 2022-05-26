@@ -59,9 +59,9 @@ def process(x):
 
 if __name__=='__main__':
     parse = argparse.ArgumentParser()
-    parse.add_argument('--chunk_id',  type=int)
-    parse.add_argument('--total_chunks',  type=int)
-    parse.add_argument('--dataset_path',  type=str)
+    parse.add_argument('--chunk_id',  type=int, default=11)
+    parse.add_argument('--total_chunks',  type=int, default=20)
+    parse.add_argument('--dataset_path',  type=str, default=r"C:\Users\cris_\Documents\GitHub\neural_nets_personality\outputs\organized_text\trait_activating_questions_clean.csv")
     
     args = parse.parse_args()
     
@@ -74,14 +74,14 @@ if __name__=='__main__':
 
     batch_size = 10
     iteration = (chunk_size + batch_size-1)//batch_size
-    args = []
+    args_list = []
     for i in tqdm(range(iteration)):
         start = i*batch_size
         stop = (i+1)*batch_size
         gtext = text.iloc[start:stop]
-        args.append(gtext)
+        args_list.append(gtext)
 
-    outs = [process(a)  for a in tqdm(args)]
+    outs = [process(a)  for a in tqdm(args_list)]
 
-    with open(f'results_{args.chunk_id}.json') as file:
+    with open(f'results_{args.chunk_id}.json','w') as file:
         json.dump(outs,file)
