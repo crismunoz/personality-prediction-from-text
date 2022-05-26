@@ -40,8 +40,8 @@ if __name__ == '__main__':
 
     for trait in traits:
         dp = DataPrep()
-        X_regression, y_regression = dp.prep_data('essay', trait, regression=True, model_comparison=False)
-        X_categorical, y_categorical = dp.prep_data('essay', trait, regression=False, model_comparison=False)
+        X_regression, y_regression = dp.prep_data('status', trait, regression=True, model_comparison=False)
+        X_categorical, y_categorical = dp.prep_data('status', trait, regression=False, model_comparison=False)
         print('Fitting trait ' + trait + ' regression model...')
         model.fit(X_regression, y_regression, regression=True)
         print('Done!')

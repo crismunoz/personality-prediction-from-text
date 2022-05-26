@@ -57,12 +57,12 @@ class DataPrep():
         ]
 
     def prep_data(self, type, trait, regression=False, model_comparison=False):
-        #df_status = self.prep_status_data()
-        df_essay = self.prep_essay_data()
-
+        
+        
         tfidf = TfidfVectorizer(stop_words='english', strip_accents='ascii')
 
         if type == 'essay':
+            df_essay = self.prep_essay_data()
 
             # result = tfidf.fit_transform(df_essay['TEXT']).todense()
             #
@@ -82,6 +82,7 @@ class DataPrep():
             y = df_essay[y_column]
 
         elif type == 'status':
+            df_status = self.prep_status_data()
             # Include other features with tfidf vector
             other_features_columns = [
                 'NETWORKSIZE',
